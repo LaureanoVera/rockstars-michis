@@ -1,7 +1,8 @@
 <script>
   // import { getData } from "./components/GetAPI.svelte";
 
-  const URL = "https://api.thecatapi.com/v1/images/search?limit=10";
+  const API_KEY = "ef968935-d84f-4d9a-a4ef-d1e80b715d94";
+  const URL = `https://api.thecatapi.com/v1/images/search?limit=10&api_key=${API_KEY}`;
 
   let info = [];
 
@@ -20,6 +21,7 @@
     {#each info as item}
       <article>
         <img src={item.url} alt={item.id} />
+        <h3>User: {item.id}</h3>
       </article>
     {/each}
   </section>
@@ -31,5 +33,9 @@
     height: 250px;
     width: 250px;
     object-fit: cover;
+  }
+
+  h3 {
+    margin-top: 0;
   }
 </style>
