@@ -14,6 +14,6 @@
 </script>
 
 <span class="Error">
-  Type: {HTTP[status].toLowerCase()} <br />
+  Type: {HTTP[status]} <br />
   Message: {message}
 </span>

@@ -4,14 +4,14 @@
   import Favorites from "./components/Favorites.svelte";
   import Card from "./components/Card.svelte";
   import Error from "./components/Error.svelte";
+  import Loading from "./components/Loading.svelte";
 
   const API_KEY = "ef968935-d84f-4d9a-a4ef-d1e80b715d94";
-  const URL_RAN = `https://api.thecatapi.com/v1/images/search?limit=12&api_key=${API_KEY}`;
-  const URL_FAV = `https://api.thecatapi.com/v1/favourites?limit=6&api_key=${API_KEY}`;
+  const URL_RAN = `https://api.thecatapi.com/v1/images/search?limit=15&api_key=${API_KEY}`;
+  const URL_FAV = `https://api.thecatapi.com/v1/favourites?&api_key=${API_KEY}`;
 
   let info = [];
   let favList = [];
-  let saveFav = [];
 
   const loadRandom = async () => {
     const res = await fetch(URL_RAN);
@@ -32,59 +32,86 @@
       favList = { status: res.status, msg: data.message, error: true };
     } else {
       console.log("LOAD FAV");
-      console.log(data);
       favList = [...data];
     }
   };
 
-  const saveFavorites = async () => {
+  const saveFavorites = async (catID) => {
     const res = await fetch(URL_FAV, {
       method: "POST",
       headers: {
+        "x-api-key": API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ image_id: "dje" }),
+      body: JSON.stringify({ image_id: String(catID) }),
     });
     const data = await res.json();
 
-    console.log("SAVE");
-    console.log(data);
-
     if (res.status !== 200) {
       saveFav = { status: res.status, msg: data.message, error: true };
+    } else {
+      loadFavorites();
     }
   };
 
-  loadRandom();
+  const deleteFavorites = async (id) => {
+    const res = await fetch(
+      `https://api.thecatapi.com/v1/favourites/${id}?&api_key=${API_KEY}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      favList = { status: res.status, msg: data.message, error: true };
+    } else {
+      console.log("Delete from favorites");
+      console.log(data);
+      console.log(
+        `https://api.thecatapi.com/v1/favourites/${id}?&api_key=${API_KEY}`
+      );
+      loadFavorites();
+      console.log(favList);
+    }
+  };
+
+  // loadRandom();
   loadFavorites();
-  saveFavorites();
 </script>
 
 <main>
   <Header on:click={loadRandom} />
-  <Random>
-    {#if !info.error}
-      {#each info as item}
-        <Card
-          on:click={saveFavorites}
-          url={item.url}
-          id={item.id}
-          text="Favorites"
-        />
-      {/each}
-    {:else}
-      <Error status={info.status} />
-    {/if}
-  </Random>
-
-  {#if saveFav.error}
-    <Error status={saveFav.status} message={saveFav.msg} />
+  {#if info.length <= 0}
+    <!-- <Loading /> -->
+  {:else}
+    <Random>
+      {#if !info.error}
+        {#each info as item}
+          <Card
+            on:click={() => saveFavorites(item.id)}
+            url={item.url}
+            id={item.id}
+            text="Favorites"
+            icon="fa-solid fa-circle-plus"
+          />
+        {/each}
+      {:else}
+        <Error status={info.status} />
+      {/if}
+    </Random>
   {/if}
 
   <Favorites>
     {#if !favList.error}
       {#each favList as item}
-        <Card url={item.image.url} id={item.image.id} text="Delete" />
+        <Card
+          on:click={() => deleteFavorites(item.id)}
+          url={item.image.url}
+          id={item.image.id}
+          text="Delete"
+          icon="fa-solid fa-circle-minus"
+        />
       {/each}
     {:else}
       <Error status={favList.status} message={favList.msg} />
@@ -97,9 +124,10 @@
 
   :global(:root) {
     --main-color: #64ffcc;
-    --med-color: #64ffcc64;
-    --text-color: #959a9d;
-    --dark-color: #262a2d;
+    --med-color: rgba(102, 255, 204, 0.392);
+    --text-color: #525455;
+    --dark-color: #323638;
+    --black-color: #000;
 
     --mb-1: 0.25rem;
     --mb-2: 0.5rem;
