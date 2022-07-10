@@ -6,19 +6,40 @@
 
 <article class="Card">
   <img src={url} alt={id} />
-  <button>{text}</button>
+  <button on:click>{text}</button>
 </article>
 
 <style>
   .Card {
-    max-width: 320px;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 5px #333;
+    width: 280px;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 3px var(--text-color);
+    transition: 0.3s;
     overflow: hidden;
+    background-color: transparent;
   }
+
+  .Card:hover {
+    box-shadow: 0 0 10px var(--main-color);
+  }
+
   img {
-    height: 250px;
+    height: 190px;
     width: 100%;
     object-fit: cover;
+  }
+
+  button {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    transition: 0.3s;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  button:hover {
+    cursor: pointer;
+    color: var(--main-color);
   }
 </style>
