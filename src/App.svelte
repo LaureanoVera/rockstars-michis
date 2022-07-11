@@ -5,9 +5,10 @@
   import Card from "./components/Card.svelte";
   import Error from "./components/Error.svelte";
   import Loading from "./components/Loading.svelte";
+  import Footer from "./components/Footer.svelte";
 
   const API_KEY = "ef968935-d84f-4d9a-a4ef-d1e80b715d94";
-  const URL_RAN = `https://api.thecatapi.com/v1/images/search?limit=15&api_key=${API_KEY}`;
+  const URL_RAN = `https://api.thecatapi.com/v1/images/search?limit=12&api_key=${API_KEY}`;
   const URL_FAV = `https://api.thecatapi.com/v1/favourites?&api_key=${API_KEY}`;
 
   let info = [];
@@ -31,7 +32,6 @@
     if (res.status !== 200) {
       favList = { status: res.status, msg: data.message, error: true };
     } else {
-      console.log("LOAD FAV");
       favList = [...data];
     }
   };
@@ -66,40 +66,20 @@
     if (res.status !== 200) {
       favList = { status: res.status, msg: data.message, error: true };
     } else {
-      console.log("Delete from favorites");
-      console.log(data);
-      console.log(
-        `https://api.thecatapi.com/v1/favourites/${id}?&api_key=${API_KEY}`
-      );
       loadFavorites();
-      console.log(favList);
     }
   };
 
-  // loadRandom();
+  loadRandom();
   loadFavorites();
 </script>
 
 <main>
   <Header on:click={loadRandom} />
   {#if info.length <= 0}
-    <!-- <Loading /> -->
+    <Loading />
   {:else}
-    <Random>
-      {#if !info.error}
-        {#each info as item}
-          <Card
-            on:click={() => saveFavorites(item.id)}
-            url={item.url}
-            id={item.id}
-            text="Favorites"
-            icon="fa-solid fa-circle-plus"
-          />
-        {/each}
-      {:else}
-        <Error status={info.status} />
-      {/if}
-    </Random>
+    <Random save={saveFavorites} {info} />
   {/if}
 
   <Favorites>
@@ -118,6 +98,7 @@
     {/if}
   </Favorites>
 </main>
+<Footer />
 
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap");
@@ -125,8 +106,8 @@
   :global(:root) {
     --main-color: #64ffcc;
     --med-color: rgba(102, 255, 204, 0.392);
-    --text-color: #525455;
-    --dark-color: #323638;
+    --text-color: #879296;
+    --dark-color: #4f5457;
     --black-color: #000;
 
     --mb-1: 0.25rem;

@@ -1,5 +1,25 @@
+<script>
+  import Card from "./Card.svelte";
+  import Error from "./Error.svelte";
+
+  export let info;
+  export let save;
+</script>
+
 <section class="Random">
-  <slot />
+  {#if !info.error}
+    {#each info as item}
+      <Card
+        on:click={() => save(item.id)}
+        url={item.url}
+        id={item.id}
+        text="Favorites"
+        icon="fa-solid fa-circle-plus"
+      />
+    {/each}
+  {:else}
+    <Error status={info.status} />
+  {/if}
 </section>
 
 <style>

@@ -13,7 +13,7 @@
 <style>
   .Card {
     width: 280px;
-    border-radius: 0.5rem;
+    border-radius: var(--mb-2) var(--mb-2) var(--mb-4) var(--mb-4);
     box-shadow: 0 8px 15px var(--black-color);
     transition: 0.3s;
     overflow: hidden;
@@ -37,7 +37,7 @@
     transition: 0.3s;
     font-weight: 500;
     color: var(--text-color);
-    padding: var(--mb-2) 0;
+    padding: var(--mb-2) 0 var(--mb-3);
     font-weight: 600;
   }
 

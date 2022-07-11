@@ -9,11 +9,10 @@
 <style>
   .Header {
     margin-bottom: var(--mb-4);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, 0.06);
     width: 100%;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 0 0 var(--mb-3) var(--mb-3);
     padding: var(--mb-4);
     box-shadow: 0 4px 8px var(--black-color);
@@ -50,7 +49,7 @@
     cursor: pointer;
     transform: rotate(360deg);
     transition: 0.35s;
-    box-shadow: 0 0 8px var(--med-color);
+    box-shadow: inset 0 0 8px var(--med-color);
   }
 
   @media (min-width: 769px) {
