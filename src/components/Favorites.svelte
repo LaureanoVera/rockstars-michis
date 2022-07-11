@@ -1,7 +1,27 @@
+<script>
+  import Card from "./Card.svelte";
+  import Error from "./Error.svelte";
+
+  export let favList;
+  export let deleteFav;
+</script>
+
 <section class="Favorites">
   <h2 class="Favorites__title">Favorites</h2>
   <article class="Favorites__container">
-    <slot />
+    {#if !favList.error}
+      {#each favList as item}
+        <Card
+          on:click={() => deleteFav(item.id)}
+          url={item.image.url}
+          id={item.image.id}
+          text="Delete"
+          icon="fa-solid fa-circle-minus"
+        />
+      {/each}
+    {:else}
+      <Error status={favList.status} message={favList.msg} />
+    {/if}
   </article>
 </section>
 
@@ -10,6 +30,7 @@
     text-align: center;
     margin: calc(var(--mb-4) * 2.5) 0 var(--mb-4);
     min-height: 70vh;
+    padding: var(--mb-4) 0;
   }
 
   .Favorites__title {

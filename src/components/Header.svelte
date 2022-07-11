@@ -15,7 +15,7 @@
     -webkit-backdrop-filter: blur(10px);
     border-radius: 0 0 var(--mb-3) var(--mb-3);
     padding: var(--mb-4);
-    box-shadow: 0 4px 8px var(--black-color);
+    box-shadow: 0 2px 8px var(--med-color);
   }
 
   .Header__nav {

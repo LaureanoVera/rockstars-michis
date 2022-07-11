@@ -70,33 +70,19 @@
     }
   };
 
-  loadRandom();
+  // loadRandom();
   loadFavorites();
 </script>
 
+<Header on:click={loadRandom} />
 <main>
-  <Header on:click={loadRandom} />
   {#if info.length <= 0}
     <Loading />
   {:else}
     <Random save={saveFavorites} {info} />
   {/if}
 
-  <Favorites>
-    {#if !favList.error}
-      {#each favList as item}
-        <Card
-          on:click={() => deleteFavorites(item.id)}
-          url={item.image.url}
-          id={item.image.id}
-          text="Delete"
-          icon="fa-solid fa-circle-minus"
-        />
-      {/each}
-    {:else}
-      <Error status={favList.status} message={favList.msg} />
-    {/if}
-  </Favorites>
+  <Favorites deleteFav={deleteFavorites} {favList} />
 </main>
 <Footer />
 

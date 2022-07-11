@@ -21,7 +21,7 @@
   }
 
   .Card:hover {
-    box-shadow: 0 2px 7px var(--med-color);
+    box-shadow: 0 2px 7px var(--main-color);
   }
 
   .Card__image {
